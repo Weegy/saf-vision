@@ -2,8 +2,12 @@
   padding: 0;
 }
 .top-bar{
-  background-color: #D9d9d9;
+  background-color: #777777;
   color: white;
+  font-size: 0.7rem;
+  .top-bar-nav{
+    min-height: auto;
+  }
 }
 .sub-bar{
   background-color: #9D2F42;
