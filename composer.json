@@ -1,0 +1,18 @@
+{
+  "name": "byte/saf-vision",
+  "description": "SAF Vision Theme",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "SafVision\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "SafVision\\SafVision",
+    "label": {
+      "de-DE": "Send-a-fish v2",
+      "en-GB": "Send-a-fish v2"
+    }
+  }
+}

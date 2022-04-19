@@ -1,0 +1,36 @@
+.sub-bar{
+  background-color: black;
+  * {
+    color: white;
+  }
+}
+
+.main-navigation {
+  background-color: black;
+
+  .main-navigation-link {
+    color: white;
+    &.active {
+      text-decoration: none;
+      .main-navigation-link-text {
+        border: none;
+
+      }
+    }
+    &:hover {
+      color: #d33028;
+    }
+  }
+}
+
+.navigation-flyout-categories
+{
+  .navigation-flyout-col{
+    margin-bottom: 0 !important;
+  }
+  .is-level-0 {
+    > .navigation-flyout-col::before{
+      border: none;
+    }
+  }
+}
