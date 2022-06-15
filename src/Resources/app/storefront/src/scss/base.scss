@@ -58,8 +58,8 @@
     font-family: "object-fit: contain;";
 
     .cms-image{
-      object-fit: contain;
-      font-family: "object-fit: contain;";
+      object-fit: contain !important;
+      font-family: "object-fit: contain;" !important;
     }
   }
 }
