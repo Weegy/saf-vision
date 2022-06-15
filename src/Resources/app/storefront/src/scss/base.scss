@@ -57,10 +57,15 @@
     background-size: contain;
     font-family: "object-fit: contain;";
 
-    .cms-image{
-      object-fit: contain !important;
-      font-family: "object-fit: contain;" !important;
+    .cms-image-container{
+      min-height: auto !important;
+      .cms-image{
+        object-fit: contain !important;
+        font-family: "object-fit: contain;" !important;
+        position: relative !important;
+      }
     }
+
   }
 }
 
