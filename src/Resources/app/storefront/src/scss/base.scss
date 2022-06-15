@@ -55,6 +55,12 @@
 .background-contain{
   .is-cover {
     background-size: contain;
+    font-family: "object-fit: contain;";
+
+    .cms-image{
+      object-fit: contain;
+      font-family: "object-fit: contain;";
+    }
   }
 }
 
