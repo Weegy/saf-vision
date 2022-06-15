@@ -57,7 +57,7 @@
     background-size: contain;
     font-family: "object-fit: contain;";
 
-    .cms-image-container{
+    &.cms-image-container{
       min-height: auto !important;
       .cms-image{
         object-fit: contain !important;
