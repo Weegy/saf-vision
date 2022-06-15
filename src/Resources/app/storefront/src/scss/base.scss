@@ -52,6 +52,12 @@
   }
 }
 
+.background-contain{
+  .is-cover {
+    background-size: contain;
+  }
+}
+
 .navigation-flyout-categories
 {
   .navigation-flyout-col{
