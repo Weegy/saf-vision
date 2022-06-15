@@ -5,6 +5,7 @@
   background-color: #777777;
   color: white;
   font-size: 0.7rem;
+  top: 0;
   .top-bar-nav{
     min-height: auto;
   }
@@ -17,11 +18,27 @@
   }
 }
 
+.header-main{
+  min-height: 6rem;
+  flex-direction: column;
+  display: flex;
+  > .container{
+    min-height: 6rem;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    .header-row{
+      padding-bottom: 0;
+    }
+  }
+}
+
 .main-navigation {
   background-color: black;
 
   .main-navigation-link {
     color: white;
+    text-align: center;
     &.active {
       text-decoration: none;
       .main-navigation-link-text {
