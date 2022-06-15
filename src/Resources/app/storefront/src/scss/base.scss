@@ -19,16 +19,19 @@
 }
 
 .header-main{
-  min-height: 6rem;
-  flex-direction: column;
-  display: flex;
-  > .container{
-    min-height: 6rem;
-    justify-content: center;
-    display: flex;
+  @media only screen and (min-width: 1024px) {
+    min-height: 9rem;
     flex-direction: column;
-    .header-row{
-      padding-bottom: 0;
+    display: flex;
+    > .container {
+      min-height: 9rem;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+
+      .header-row {
+        padding-bottom: 0;
+      }
     }
   }
 }
