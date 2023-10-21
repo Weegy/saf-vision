@@ -1,5 +1,5 @@
 {
-  "name": "byte/saf-vision",
+  "name": "byte5/saf-vision",
   "description": "SAF Vision Theme",
   "type": "shopware-platform-plugin",
   "license": "MIT",
@@ -8,6 +8,9 @@
       "SafVision\\": "src/"
     }
   },
+  "require": {
+        "shopware/core": "6.5.*"
+    },
   "extra": {
     "shopware-plugin-class": "SafVision\\SafVision",
     "label": {

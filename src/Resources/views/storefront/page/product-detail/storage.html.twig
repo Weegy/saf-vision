@@ -1,0 +1,14 @@
+{% block utilities_offcanvas_content %}
+    {% block page_product_detail_description_container %}
+        <div class="product-detail-description tab-pane-container">
+          {# {{ dump(page)}} #}
+				<div class="product--properties panel has--border">
+							<h3 class>Mindesthaltbarkeits-/Verbrauchsdatum</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_mhd}}</p>
+				<h3 class>Aufbewahrung</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_aufbewahrung}}</p>
+							
+				</div>
+        </div>
+    {% endblock %}
+{% endblock %}

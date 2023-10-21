@@ -1,0 +1,129 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/confirm-shipping.html.twig' %}
+{% block page_checkout_confirm_shipping_inner %}
+
+    <link href="/js/main.css?v=2023.1.450" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="/js/daypilot-all.min.js?v=2023.1.450"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/air-datepicker@3.3.5/air-datepicker.min.js
+"></script>
+    <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.3.5/locale/de.js"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/air-datepicker@3.3.5/air-datepicker.min.css
+" rel="stylesheet">
+
+    <div class="card checkout-card">
+        <div
+                class="card-body">
+            {# {% set shippingMethodInvalid = true %}
+							
+							            {% for shipping in page.shippingMethods %}
+							                {% if shipping.id is same as(context.shippingMethod.id) %}
+							                    {% set shippingMethodInvalid = false %}
+							                {% endif %}
+							            {% endfor %} #}
+
+            {% block page_checkout_confirm_shipping_title %}
+                <div class="card-title">
+                    {{ "checkout.confirmShippingMethod"|trans|sw_sanitize }}
+                </div>
+            {% endblock %}
+            <div class="space hidden-mobile">
+                <div class="row" style="margin: 0 0;">
+                    <a class="button-calender"
+                       href="javascript:dp.startDate = dp.startDate.addDays(-7); dp.update(); window.addEventsForService();">Vorherige</a>
+                    <div class="description-calender">
+                        <p id="description-calender"></p>
+                    </div>
+                    <a class="button-calender last"
+                       href="javascript:dp.startDate = dp.startDate.addDays(7); dp.update(); window.addEventsForService();">Nächste</a>
+                </div>
+            </div>
+            <div class="date-picker" style="margin: 0 auto; text-align: center;>
+            {% sw_icon 'calendar' %}
+                    <input type=" text
+            "
+            style="text-align: center"
+            id="datePickerMobile"
+            data-delivery-date-six-min-date="{{ page.cart.extensions.DeliveryDateMinDate|format_date('medium', locale='de') }}
+            "
+            data-delivery-date-six-max-date="{{ page.cart.extensions.DeliveryDateMaxDate|format_date('medium', locale='de') }}
+            "
+            value="{{ page.cart.extensions.DeliveryDateActive|format_date('medium', locale='de') }}"
+            >
+        </div>
+        <div class="space hidden-desktop">
+            <div class="row">
+                <a class="button-calender"
+                   href="javascript:dp.startDate = dp.startDate.addDays(-1); dp.update(); window.addEventsForService();"><</a>
+                <div class="description-calender">
+                    <p id="description-calender"></p>
+                </div>
+                <a class="button-calender last"
+                   href="javascript:dp.startDate = dp.startDate.addDays(1); dp.update(); window.addEventsForService();">></a>
+            </div>
+        </div>
+        <div id="dp" style="overflow: hidden !important;"></div>
+
+        <div style="display: none;">
+            {% block page_checkout_confirm_shipping_form %}
+                {% sw_include '@Storefront/storefront/component/shipping/shipping-form.html.twig' with {
+                    'action': 'frontend.checkout.configure',
+                    'actionPath': path('frontend.checkout.configure'),
+                    'redirect': 'frontend.checkout.confirm.page',
+                } %}
+            {% endblock %}
+        </div>
+        <div class="row" style="padding-top: 1rem;">
+            <div class="col-6" style="display: inline-block"><img
+                        src="https://saf.hdworks.io/media/1e/15/0f/1682323681/DHL-Logo-2.png"
+                        style="padding-right: 1rem"
+                        class="img-fluid footer-logo-image"
+                        alt="DHL Express Samstag (Im Tagesverlauf)* Aktiv"
+                        title="DHL Express Samstag (Im Tagesverlauf)* Aktiv" loading="eager">Expresslieferung durch
+                DHL Express
+            </div>
+            <div class="col-6" style="display: inline-block"><img
+                        src="https://saf.hdworks.io/media/ba/4a/71/1687871213/ups-Logo-neu_%281%29.png"
+                        class="img-fluid footer-logo-image"
+                        style="padding-right: 1rem"
+                        alt="UPS Express Samstag (Zustellung 8-14 Uhr)*"
+                        title="UPS Express Samstag (Zustellung 8-14 Uhr)*" loading="eager">Expresslieferung durch
+                UPS Express
+            </div>
+        </div>
+        <p style="padding-top: 1rem"><sup>*</sup> <b>Versandkostenfrei ab 200€<b></p>
+    </div>
+    </div>
+
+    <div id="shipping-infos" data-shipping="{{ page.shippingMethods|json_encode() }}"></div>
+    <div id="selected-shipping" data-shipping="{{ page.cart.deliveries.elements[0].shippingMethod.id }}"></div>
+    <div id="earliest-date"
+         data-earliest-date="{{ page.cart.extensions.DeliveryDateMinDate|format_date('medium', locale='de') }}"></div>
+    <div id="latest-date"
+         data-latest-date="{{ page.cart.extensions.DeliveryDateMaxDate|format_date('medium', locale='de') }}"></div>
+
+    <script>
+		window.addEventListener('load', function (e) {
+			if (window.dp) {
+				window.addEventsForService()
+			}
+
+		})
+    </script>
+
+    <style>
+        .area-icon {
+            opacity: 0.5;
+        }
+
+        .area-icon:hover {
+            opacity: 1;
+        }
+    </style>
+    <script src="/js/shipping-calender.js" defer></script>
+{% endblock %}

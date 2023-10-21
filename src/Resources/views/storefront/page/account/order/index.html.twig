@@ -1,0 +1,34 @@
+{% sw_extends '@Storefront/storefront/page/account/order/index.html.twig' %}
+
+{% block base_navigation %}
+            <div class="nav-main">
+                {% block base_navigation_inner %}
+                    {% sw_include '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
+                {% endblock %}
+            </div>
+            {# <input type="hidden" name="deliveryDateSixActiveRoute" value="{{ activeRoute }}">
+                            <input type="text"
+                                   name="deliveryDate"
+                                   class="form-control"
+                                   id="addDeliveryDateInput"
+                                   style="display: none;"
+                                   data-delivery-date-six-min-date="{{ page.cart.extensions.DeliveryDateMinDate|format_date('medium', locale='de') }}"
+                                   data-delivery-date-six-days="{{ page.cart.extensions.DeliveryDateDays }}"
+                                   data-delivery-date-six-blacklist="{{ page.cart.extensions.DeliveryDateBlacklist }}"
+                                   value="{{ page.cart.extensions.DeliveryDateActive }}"
+                                   placeholder="{{ "swp-deliverydatesix.checkout.placeholder-text"|trans|sw_sanitize }}"> #}
+        {% endblock %}
+        
+
+                    {% block page_checkout_confirm_payment %}
+                        <div class="col-sm-12 confirm-payment">
+                            {% sw_include '@Storefront/storefront/page/checkout/confirm/confirm-payment.html.twig' %}
+                        </div>
+                    {% endblock %}
+
+                    {% block page_checkout_confirm_shipping %}
+                       
+                            {# <div class="col-sm-12 confirm-shipping">
+                                {% sw_include '@Storefront/storefront/page/checkout/confirm/confirm-shipping.html.twig' %}
+                            </div> #}
+                    {% endblock %}

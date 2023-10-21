@@ -15,7 +15,7 @@
     <div class="{% if level == 0 %}row {% endif %}navigation-flyout-categories is-level-{{ level }}">
         {% for treeItem in navigationTree %}
             {% set id = treeItem.category.id %}
-            {% set name = treeItem.category.translated.name %}
+            {% set name = treeItem.category.customFields.NAVTEXT ?? treeItem.category.translated.name %}
             {% set link = category_url(treeItem.category) %}
 
             {% block layout_navigation_categories_item %}

@@ -1,0 +1,51 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+{% block page_product_detail_data %}
+	{{ parent() }}
+{% endblock %}
+	{% set keywords = page.metainformation.metaKeywords|split(',') %}
+	
+	{% block page_product_detail_ordernumber_container %}
+		<div class="row detail-attributes">
+			<div class="col-8" style="font-weight: bold">Frühestes Lieferdatum</div>
+			<div class="col-4">{{ page.product.extensions.DeliveryDateMinDate|date('d.m.Y') }}</div>
+		</div>
+		<div class="row detail-attributes">
+			<div class="col-3" style="font-weight: bold">Liefertage</div>
+			<div class="col-9" style="block">
+				{% for weekday in page.product.extensions.DeliveryDays %}
+					<span style="padding: 0 0.5rem 0 0">
+						{% if weekday == 1 %}Mo
+						{% endif %}
+						{% if weekday == 2 %}Di
+						{% endif %}
+						{% if weekday == 3 %}Mi
+						{% endif %}
+						{% if weekday == 4 %}Do
+						{% endif %}
+						{% if weekday == 5 %}Fr
+						{% endif %}
+						{% if weekday == 6 %}Sa
+						{% endif %}
+					</span>
+				{% else %}
+					keine Einschränkung
+				{% endfor %}
+
+
+				{# {if !$smarty.foreach.days.last}, {/if}
+				                    {foreachelse}
+				                    {s name="NoDayLimit"}keine Begrenzung der Liefertage{/s} #}
+			</div>
+		</div>
+		<div class="row detail-attributes">
+			<div class="col-12" style="font-weight: bold">
+				Lieferzeit 1 Werktag per Expressversand*
+			</div>
+			<div></div>
+		</div>
+        
+        <div class="row detail-attribtes">
+            <img src="/images/Apple-Pay.png" />
+        </div>
+	{% endblock %}

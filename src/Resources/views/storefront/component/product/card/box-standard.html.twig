@@ -1,0 +1,180 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+
+{% block component_product_box %}
+	{% if product %}
+{# {{dump(product.extensions)}} #}
+		{% set name = product.translated.name %}
+		{% set id = product.id %}
+		{% set cover = product.cover.media %}
+		{% set counter = 0 %}
+        {% set blubUrl = safSeoUrl('frontend.detail.page', {'productId': id})|strval %}
+        {# {{dump(blubUrl|json_encode)}} #}
+		{% set secondcover = product.cover.media %}
+		{% if product.media.elements|length > 0 %}
+			{% for media in product.media.elements | sort((a,b)=>a.position <=> b.position) %}
+				{% if counter == 2 %}
+					{% set secondcover = media.media %}
+				{% endif %}
+				{% set counter = counter + 1 %}
+			{% endfor %}
+		{% endif %}
+		{% set variation = product.variation %}
+		{# product.customFields.custom_icons_seasonal #}
+		{# product.customFields.custom_icons_tk #}
+
+
+			<div class="card product-box box-{{ layout }}"> {% block component_product_box_content %}
+				<div class="card-body">
+					{% block component_product_box_badges %}
+						{% sw_include '@Storefront/storefront/component/product/card/badges.html.twig' %}
+					{% endblock %}
+
+					{% block component_product_box_rich_snippets %}{% endblock %}
+
+					{% block component_product_box_image %}
+						<script>
+							document.querySelectorAll('.product-image').forEach((element) => {
+element.addEventListener('mouseover', (event) => {
+const ele = event.target
+ele.src = ele.dataset.image
+})
+element.addEventListener('mouseout', (event) => {
+const ele = event.target
+ele.src = ele.dataset.origin
+})
+})
+
+
+						</script>
+
+						<div
+							class="product-image-wrapper">
+							{# fallback if display mode is not set #}
+							{% set displayMode = displayMode ?: 'standard' %}
+
+							{# set display mode 'cover' for box-image with standard display mode #}
+							{% if layout == 'image' and displayMode == 'standard' %}
+								{% set displayMode = 'cover' %}
+							{% endif %}
+
+							<a href="{{ blubUrl }}" title="{{ name }}" class="product-image-link is-{{ displayMode }}">
+								{% if cover.url %}
+									{% set attributes = {
+                                        'class': 'product-image is-'~displayMode,
+                                        'alt': (cover.translated.alt ?: name),
+                                        'title': (cover.translated.title ?: name),
+                                        'data-image': (secondcover.url ?: cover.url)
+                                    } %}
+
+									{% if displayMode == 'cover' or displayMode == 'contain' %}
+										{% set attributes = attributes|merge({ 'data-object-fit': displayMode }) %}
+									{% endif %}
+									<img src="{{cover.url}}" data-origin="{{cover.url}}" data-image="{{(secondcover.url ?: cover.url)}}" alt="{{name}}" class="{{'product-image is-'~displayMode}}"/>
+								{% else %}
+									<div class="product-image-placeholder">
+										{% sw_icon 'placeholder' style {
+                                            'size': 'fluid'
+                                        } %}
+									</div>
+								{% endif %}
+							</a>
+							{% if product.customFields.custom_icons_seasonal || product.customFields.custom_icons_tk %}
+								<div class="product-icons row">
+									{% if product.customFields.custom_icons_seasonal %}
+										<div class="col-4">
+											<img src="/images/saisonal_new.png" class="img-fluid"/>
+										</div>
+									{% endif %}
+									{% if product.customFields.custom_icons_tk %}
+										<div class="col-4">
+											<img src="/images/frosted.png" class="img-fluid"/>
+										</div>
+									{% endif %}
+
+								</div>
+							{% endif %}
+
+							{% if config('core.cart.wishlistEnabled') %}
+								{% block component_product_box_wishlist_action %}{% endblock %}
+							{% endif %}
+
+						</div>
+					{% endblock %}
+
+					{% block component_product_box_info %}
+
+						<div class="product-info">
+							{% block component_product_box_rating %}
+								{% if config('core.listing.showReview') %}
+									<div class="product-rating">
+										{% if product.ratingAverage %}
+											{% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
+                                                points: product.ratingAverage,
+                                                style: 'text-primary'
+                                            } %}
+										{% endif %}
+									</div>
+								{% endif %}
+							{% endblock %}
+
+							{% block component_product_box_name %}
+								<a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}" class="product-name" title="{{ name }}">
+									{{ name }}
+								</a>
+								{% set tsConfig = config('trustedShopsApp.config') %}
+								{% set tsChannelId = context.salesChannel.id ?? null %}
+
+								{% if tsChannelId is not null %}
+									{% if tsConfig[tsChannelId].widgets is defined and expectedMapping[tsChannelId] === tsConfig[tsChannelId].widgets.eTrustedChannelRef %}
+
+										{% if product.parentId and product.extensions.tsParentProduct is defined %}
+											{% set product = product.extensions.tsParentProduct %}
+										{% endif %}
+
+										<div
+											class="ts-rating" style="overflow: hidden">
+											{% sw_include '@Storefront/storefront/includes/saf-widget-assembler.html.twig' with {
+                    widgets: tsConfig[tsChannelId].widgets.children.0.children,
+                    product: product,
+                    widgetLocationId: 'wdg-loc-pl'
+                } %}
+										</div>
+									{% endif %}
+								{% endif %}
+							{% endblock %}
+
+							{% block component_product_box_variant_characteristics %}{# <div class="product-variant-characteristics">
+																                                    <div class="product-variant-characteristics-text">
+																                                        {% for variation in product.variation %}
+																                                            {{ variation.group }}:
+																                                            <span class="product-variant-characteristics-option">
+																                                                {{ variation.option }}
+																                                            </span>
+																
+																                                            {% if product.variation|last != variation %}
+																                                                {{ " | " }}
+																                                            {% endif %}
+																                                        {% endfor %}
+																                                    </div>
+																                                </div>  #}
+								{# <div class="product-description">
+																                                    {{ product.translated.description|striptags|raw }}
+																                                </div> #}
+							{% endblock %}
+
+							{% block component_product_box_description %}{% endblock %}
+
+							{% block component_product_box_price %}
+								{% sw_include '@Storefront/storefront/component/product/card/price-unit.html.twig' %}
+							{% endblock %}
+
+							{% block component_product_box_action %}
+								{% sw_include '@Storefront/storefront/component/product/card/action.html.twig' %}
+							{% endblock %}
+						</div>
+					{% endblock %}
+				</div>
+			{% endblock %}
+		</div>
+	{% endif %}
+{% endblock %}

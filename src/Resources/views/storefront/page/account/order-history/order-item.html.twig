@@ -1,0 +1,11 @@
+{% sw_extends '@Storefront/storefront/page/account/order-history/order-item.html.twig' %}
+
+
+{% block page_account_order_item_order_number_col %}
+	{# {{dump(order)}} #}
+	<div class="col-12 order-table-header-order-number" style="margin-bottom: 0">
+		<strong class="order-table-header-label">Wunschlieferdatum</strong>
+		<span class="order-table-body-value">{{ order.customFields.delivery_date_six_order|date("d.m.Y") }}</span>
+	</div>
+	{{parent()}}
+{% endblock %}

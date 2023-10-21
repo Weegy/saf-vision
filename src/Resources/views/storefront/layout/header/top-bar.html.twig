@@ -14,8 +14,33 @@
 
                 {# @deprecated tag:v6.5.0 - will be removed, has been moved to footer #}
                 {% block layout_header_top_bar_service %}
-                    <div class="">
-                        {{'header.top-bar.text'|trans}}
+                    <div class="row col-12" style="text-align: center; display: flex; max-height: 2.5rem;">
+                        <div class="col-4">
+                        {{ 'header.top-bar.text1'|trans|raw}}
+                        </div>
+                        <div class="col-4">
+                        {{'header.top-bar.text2'|trans|raw}}
+                        </div>
+                        <div class="col-4" style="margin-top: -0.8rem;">
+                        {% set tsConfig = config('trustedShopsApp.config') %}
+                        {% set tsChannelId = context.salesChannel.id ?? null %}     
+                        {% if tsChannelId is not null %}
+                        {% if tsConfig[tsChannelId].widgets is defined and tsConfig[tsChannelId].widgets is not null %}
+                            {% if tsConfig[tsChannelId].widgets is defined and expectedMapping[tsChannelId] === tsConfig[tsChannelId].widgets.eTrustedChannelRef %}
+                                {% set widgetConfig = tsConfig[tsChannelId].widgets.children.0 %}
+                                {# {{dump()}} #}
+                                {% sw_include '@Storefront/storefront/includes/script-assembler.html.twig' with {
+                                    scriptConfig: widgetConfig
+                                } %}
+                                {% sw_include '@Storefront/storefront/includes/widget-assembler.html.twig' with {
+                                    widgets: tsConfig[tsChannelId].widgets.children.0.children,
+                                    product: product,
+                                    widgetLocationId: 'wdg-loc-hp'
+                                } %}
+                            {% endif %}
+                        {% endif %}
+                        {% endif %}
+                        </div>
                     </div>
 
                 {% endblock %}

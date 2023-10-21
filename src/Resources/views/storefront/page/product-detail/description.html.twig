@@ -1,0 +1,80 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/description.html.twig' %}
+{% block utilities_offcanvas_content %}
+    {% block page_product_detail_description_container %}
+        <div class="product-detail-description tab-pane-container">
+            {% block page_product_detail_description_title %}
+               
+            {% endblock %}
+
+            {% block page_product_detail_description_content %}
+                {% block page_product_detail_description_content_text %}
+                    <div class="product-detail-description-text"
+                         itemprop="description">
+                        {{ page.product.translated.description|raw }}
+                    </div>
+                {% endblock %}
+
+                {% block page_product_detail_description_content_properties %}
+                    {# {% if page.product.sortedProperties|length > 0 %}
+                        {% sw_include '@Storefront/storefront/page/product-detail/properties.html.twig' %}
+                    {% endif %} #}
+                    <div class="row detail-attributes">
+            {# {% if page.product.customFields.custom_icons_tk %}
+                <div class="col-2">
+                    <img src="https://saf.hdworks.io/media/5e/1b/cc/1666083770/Incon-TK.png" class="img-fluid" />
+                </div>
+            {% endif %} #}
+             {% if page.product.customFields.custom_icons_regional %}
+                <div class="col-2">
+                    <img src="/images/SAFIconsNew/regional.png" class="img-fluid" />
+                </div>
+            {% endif %}{% if page.product.customFields.custom_icons_seasonal %}
+                <div class="col-2">
+                    <img src="/images/SAFIconsNew/saisonal.png" class="img-fluid" />
+                </div>
+            {% endif %}
+            {% if page.product.customFields.custom_icons_vegan %}
+                <div class="col-2">
+                    <img src="/images/SAFIconsNew/vegan.png" class="img-fluid" />
+                </div>
+            {% endif %}
+            {% if page.product.customFields.custom_icons_salzfrei %}
+                <div class="col-2">
+                    <img src="/images/SAFIconsNew/salzfrei.png" class="img-fluid" />
+                </div>
+            {% endif %} {% if page.product.customFields.custom_icons_graetenfrei %}
+                <div class="col-2">
+                    <img src="/images/SAFIconsNew/graetenfrei.png" class="img-fluid" />
+                </div>
+            {% endif %}
+            {# {% if page.product.customFields.custom_icons_smoked %}
+                <div class="col-2">
+                    <img src="https://saf.hdworks.io/media/06/84/9f/1666083769/Incon-geräuchert.png" class="img-fluid" />
+                </div>
+            {% endif %} #}
+            {% if page.product.customFields.custom_icons_keine_zusatz %}
+                <div class="col-2">
+                    <img src="/images/SAFIconsNew/zusatzfrei.png" class="img-fluid" />
+                </div>
+            {% endif %}
+            {# {% if page.product.customFields.custom_icons_graetenfrei %}
+                <div class="col-2">
+                    <img src="https://saf.hdworks.io/media/25/9c/1c/1666083770/Incon-Grätenfrei.png" class="img-fluid" />
+                </div>
+            {% endif %} #}
+             {# {% if page.product.customFields.custom_icons_konservierung %}
+                <div class="col-2">
+                    <img src="https://saf.hdworks.io/media/26/82/49/1666083770/Incon-Konservierung.png" class="img-fluid" />
+                </div>
+            {% endif %}
+             {% if page.product.customFields.custom_icons_laktosefrei %}
+                <div class="col-2">
+                    <img src="https://saf.hdworks.io/media/1e/82/86/1666083769/Incon-Laktose-frei.png" class="img-fluid" />
+                </div>
+            {% endif %} #}
+        </div>
+                {% endblock %}
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endblock %}

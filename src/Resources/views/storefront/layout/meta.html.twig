@@ -1,0 +1,7 @@
+{% sw_extends '@Storefront/storefront/layout/meta.html.twig' %}
+    {% block layout_head_canonical %}
+    {{parent()}}
+        {% if page.cmsPage.type == 'product_list' && app.request.query.get('properties')%}
+            <meta name="robots" content="noindex,follow" />
+        {% endif %}
+{% endblock %}

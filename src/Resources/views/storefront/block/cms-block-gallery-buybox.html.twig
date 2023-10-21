@@ -1,0 +1,67 @@
+{% sw_extends '@Storefront/storefront/block/cms-block-gallery-buybox.html.twig' %}
+
+{% block block_gallery_buybox %}
+    {% set mediaItems = page.product.media.media %}
+    <div class="row product-detail-main">
+        {% block page_product_detail_media %}
+            <div class="col-sm-12 col-lg-8 product-detail-media ">
+                <div class="d-sm-none">
+                    {% if page.product.media %}
+                        {% sw_include '@Storefront/storefront/element/cms-element-image-gallery.html.twig' with {
+                            'mediaItems': mediaItems,
+                            'zoom': false,
+                            'zoomModal': false,
+                            'displayMode': 'contain',
+                            'gutter': 0,
+                            'minHeight': '600px',
+                            'navigationArrows': false,
+                            'galleryPosition': 'none',
+                            'isProduct': true,
+                            'fallbackImageTitle': page.product.translated.name,
+                            'startIndexThumbnails': 1,
+                            'startIndexSlider': 1,
+                            'keepAspectRatioOnZoom': false
+                        } %}
+                    {% endif %}
+                </div>
+                <div class="d-none d-md-block">
+                    {% set primaryImage = mediaItems.elements|first %}
+                    {% set isPrimaryImage = true %}
+                    {% set counter = 0 %}
+                    <img src="{{ primaryImage.url }}" class="img img-fluid"/>
+                    <div class="row additional-images">
+                        {% for image in mediaItems.elements %}
+                            {% if isPrimaryImage || counter >= 2 %}
+                                {% set isPrimaryImage = false %}
+                                {% continue %}
+
+                            {% endif %}
+                            <div class="col-6">
+                                <img src="{{ image.url }}" class="img-fluid"/>
+                            </div>
+                            {% set counter = counter + 1 %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {# <div class="product-detail-tabs" style="padding-top: 1rem">
+					{% sw_include '@Storefront/storefront/page/product-detail/tabs.html.twig' %}
+				</div> #}
+                {# {% if page.crossSellings.elements is defined and page.crossSellings.elements|filter(item => item.total > 0)|length > 0 %}
+					<div class="product-detail-tabs product-detail-cross-selling">
+						{% sw_include '@Storefront/storefront/page/product-detail/cross-selling/tabs.html.twig' with {
+                                crossSellings: page.crossSellings
+                            } %}
+					</div>
+				{% endif %} #}
+
+            </div>
+
+        {% endblock %}
+
+        {% block page_product_detail_buy %}
+            <div class="col-lg-4 product-detail-buy">
+                {% sw_include '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,327 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+{% block page_product_detail_data %}
+    {% sw_include '@Storefront/storefront/page/product-detail/headline.html.twig' %}
+    {% block page_product_detail_reviews %}
+        <div class="review-container">
+            {{ parent() }}
+        </div>
+    {% endblock %}
+    {{ parent() }}
+    {# {{ dump(page.product.customFields) }} #}
+
+{% endblock %}
+
+
+{% block page_product_detail_data_rich_snippet_price_range %}
+    {% set keywords = page.metainformation.metaKeywords|split(',') %}
+    {% for keyword  in keywords %}
+        <p class="detail-keyword"><span class="check">{% sw_icon 'checkmark' %}</span>
+            {{ keyword }}</p>
+    {% endfor %}
+    <div style="padding-bottom: 1rem"></div>
+    {% if page.product.calculatedPrices|length > 1 %}
+        {% set lowestPrice = false %}
+        {% set highestPrice = false %}
+
+        {% for price in page.product.calculatedPrices %}
+            {% if not lowestPrice or price.unitPrice < lowestPrice %}
+                {% set lowestPrice = price.unitPrice %}
+            {% endif %}
+            {% if not highestPrice or price.unitPrice > highestPrice %}
+                {% set highestPrice = price.unitPrice %}
+            {% endif %}
+        {% endfor %}
+
+        <meta itemprop="lowPrice" content="{{ lowestPrice }}"/>
+        <meta itemprop="highPrice" content="{{ highestPrice }}"/>
+        <meta itemprop="offerCount" content="{{ page.product.calculatedPrices|length }}"/>
+    {% endif %}
+{% endblock %}
+
+	{% block page_product_detail_data_rich_snippet_price_currency %}
+        <meta itemprop="priceCurrency" content="{{ context.currency.translated.shortName }}"/>
+    {% endblock %}
+
+	{% block page_product_detail_price %}
+        <div class="product-detail-price-container">
+            {% sw_include '@Storefront/storefront/page/product-detail/buy-widget-price.html.twig' %}
+        </div>
+    {% endblock %}
+
+	{% block page_product_detail_tax %}
+        <div class="product-detail-tax-container">
+            {% if context.taxState == "gross" %}
+                {% set taxText = "general.grossTaxInformation"|trans|sw_sanitize %}
+            {% else %}
+                {% set taxText = "general.netTaxInformation"|trans|sw_sanitize %}
+            {% endif %}
+
+            <p class="product-detail-tax">
+                {% block page_product_detail_tax_link %}
+                    <a class="product-detail-tax-link"
+                       href="{{ path('frontend.cms.page',{ id: config('core.basicInformation.shippingPaymentInfoPage') }) }}"
+                       title="{{ taxText }}" {{ dataBsToggleAttr }}="modal" data-url="{{ path('frontend.cms.page',{ id: config('core.basicInformation.shippingPaymentInfoPage') }) }}">
+                    {{ taxText }}
+                    </a>
+                {% endblock %}
+            </p>
+        </div>
+    {% endblock %}
+
+    
+     {% block page_product_detail_wishlist %}
+
+     {% endblock %}
+
+	{% block page_product_detail_delivery_informations %}{% endblock %}
+	{% block page_product_detail_ordernumber_container %}
+
+        {#        {{ dump(page.product.extensions) }} #}
+
+        <div class="row detail-attributes">
+            <div class="col-1" style="font-weight: bold; padding: 0px"><img src="/images/saf-icons/package.png"
+                                                                            class="img-fluid"
+                                                                            style="width: 100%; padding: 0px;"/></div>
+            <div class="col-7">Frühestes Lieferdatum</div>
+            <div class="col-4"
+                 style="font-weight: bold">
+                 {% if page.product.available %}
+                 {{ page.product.extensions.DeliveryDateMinDate|date('d.m.Y') }}
+                 {% else %}
+                  <span style="font-size: 0.7rem; color: red;">
+                Artikel zur Zeit nicht lieferbar
+                </span>
+                 {% endif %}
+                 </div>
+        </div>
+        {% if page.product.customFields.migration_SAFSW56_product_attr7 %}
+            <div class="row detail-attributes">
+                <div class="col-1" style="font-weight: bold; padding: 0px"><img
+                            src="/images/saf-icons/verfuegbar-bis.png" class="img-fluid"
+                            style="width: 100%; padding: 0px;"/></div>
+                <div class="col-8">Verfügbar bis</div>
+                <div class="col-3"
+                     style="font-weight: bold">{{ page.product.customFields.migration_SAFSW56_product_attr7|date('d.m.Y') }}</div>
+            </div>
+        {% endif %}
+        <div class="row detail-attributes">
+            <div class="col-1" style="font-weight: bold; padding: 0px"><img src="/images/saf-icons/cal.png"
+                                                                            class="img-fluid"
+                                                                            style="width: 100%; padding: 0px;"/></div>
+            <div class="col-2">Liefertage</div>
+            <div class="col-9" style="block">
+                {% for weekday in page.product.extensions.DeliveryDateDays %}
+                    <span style="padding: 0 0.5rem 0 0; font-weight: bold">
+						{% if weekday == 1 %}Mo
+                        {% endif %}
+                        {% if weekday == 2 %}Di
+                        {% endif %}
+                        {% if weekday == 3 %}Mi
+                        {% endif %}
+                        {% if weekday == 4 %}Do
+                        {% endif %}
+                        {% if weekday == 5 %}Fr
+                        {% endif %}
+                        {% if weekday == 6 %}Sa
+                        {% endif %}
+					</span>
+                {% else %}
+                    keine Einschränkung
+                {% endfor %}
+
+
+                {# {if !$smarty.foreach.days.last}, {/if}
+																																																																								                    {foreachelse}
+																																																																								                    {s name="NoDayLimit"}keine Begrenzung der Liefertage{/s} #}
+            </div>
+        </div>
+        <div class="row detail-attributes">
+            <div class="col-1" style="font-weight: bold; padding: 0px"><img src="/images/saf-icons/lkw.png"
+                                                                            class="img-fluid"
+                                                                            style="width: 100%; padding: 0px;"/></div>
+            <div class="col-11" style="font-weight: bold">
+                Lieferzeit 1 Werktag per Expressversand*
+            </div>
+            <div></div>
+        </div>
+        <div style="padding: 2rem 0;">
+
+            <button class="product-accordion">
+                <span style="font-weight: bold">Verwendung</span>
+            </button>
+            <div class="panel">
+                <div class="row">
+                    {% if page.product.customFields.custom_verwendung_raeuchern %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-raeuchern.png" class="img-fluid"
+                                 style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                    {% if page.product.customFields.custom_verwendung_roh %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-roh.png" class="img-fluid" style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                    {% if page.product.customFields.custom_verwendung_verzehrfertig %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-verzehrfertig.png" class="img-fluid"
+                                 style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                    {% if page.product.customFields.custom_verwendung_braten %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-braten.png" class="img-fluid"
+                                 style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                    {% if page.product.customFields.custom_verwendung_frittieren %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-frittieren.png" class="img-fluid"
+                                 style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                    {% if page.product.customFields.custom_verwendung_backen %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-backen.png" class="img-fluid"
+                                 style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                    {% if page.product.customFields.custom_verwendung_grillen %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-grillen.png" class="img-fluid"
+                                 style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                    {% if page.product.customFields.custom_verwendung_duensten %}
+                        <div class="col-3" style="padding: 0px">
+                            <img src="/images/saf-icons/zubereitung-duensten.png" class="img-fluid"
+                                 style="padding: 10px"/>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button class="product-accordion">
+                <span style="font-weight: bold">Haltbarkeit und Herkunft</span>
+            </button>
+            <div class="panel">
+                <p>- {{ page.product.customFields.migration_SAFSW56_product_mhd|raw }}</p>
+                <p>- {{ page.product.customFields.migration_SAFSW56_product_herkunftsland|raw }}</p>
+
+            </div>
+
+
+            <button class="product-accordion">
+                <span style="font-weight: bold">Zubereitung</span>
+            </button>
+            <div class="panel">
+                {% if page.product.customFields.custom_preparation_raeuchern %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/raeuchern.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_raeuchern|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.product.customFields.custom_preparation_backen %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/bakery.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_backen|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.product.customFields.custom_preparation_roh %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/roh.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_roh|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.product.customFields.custom_preparation_braten %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/braten.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_braten|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.product.customFields.custom_preparation_grillen %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/grillen.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_grillen|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.product.customFields.custom_preparation_frittieren %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/frittieren.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_frittieren|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.product.customFields.custom_preparation_verzehrfertig %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/verzehrfertig.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_verzehrfertig|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.product.customFields.custom_preparation_duensten %}
+                    <div class="row verwendung">
+                        <div class="col-1" style="padding: 0px">
+                            <img src="/images/saf-icons/duensten.png" class="img-fluid" style="padding: 0px"/>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ page.product.customFields.custom_preparation_duensten|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# <div class="row detail-attribtes" style="padding: 20px; margin: 2rem">
+																									<div class="col-4" style="padding: 0px"/>
+																									<img src="/images/Apple-Pay.png" class="img-fluid" style="padding: 0px"/>
+																								</div>
+																								<div class="col-4" style="padding: 0px">
+																									<img src="/images/Klarna-Rechnung.png" class="img-fluid" style="padding: 0px"/>
+																								</div>
+																								<div class="col-4" style="padding: 0px">
+																									<img src="/images/Master-Card.png" class="img-fluid" style="padding: 0px"/>
+																								</div>
+																								<div class="col-4" style="padding: 0px">
+																									<img src="/images/Paypal.png" class="img-fluid" style="padding: 0px"/>
+																								</div>
+																								<div class="col-4" style="padding: 0px">
+																									<img src="/images/Rechnung-SAF.png" class="img-fluid" style="padding: 0px"/>
+																								</div>
+																								<div class="col-4" style="padding: 0px">
+																									<img src="/images/Visa.png" class="img-fluid" style="padding: 0px"/>
+																								</div> #}
+        </div>
+    {% endblock %}
+
+{% block page_product_detail_buy_container %}
+    {{ parent() }}
+
+{% endblock %}

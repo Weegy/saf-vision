@@ -1,0 +1,29 @@
+{% block utilities_offcanvas_content %}
+	{% block page_product_detail_description_container %}
+		<div class="product-detail-description tab-pane-container">
+			{# {{ dump(page)}} #}
+			<div class="product--properties has--border">
+				<h3 class>Verkehrsbezeichnung</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_verkehrsbezeichnung}}</p>
+				<h3 class>Produktbeschreibung</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_produktbeschreibung}}</p>
+				<h3 class>Hersteller</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_hersteller}}</p>
+				<h3 class>Lateinische Bezeichnung</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_latein}}</p>
+				<h3 class>Herkunftsland</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_herkunftsland}}</p>
+				<h3 class>Fanggebiet</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_fanggebiet}}</p>
+				<h3 class>Fanggerät</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_fanggeraet}}</p>
+				<h3 class>Zubereitung</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_zubreitung}}</p>
+                <h3 class>Aufbewahrung</h3>
+				<p>{{page.product.customFields.migration_SAFSW56_product_aufbewahrung}}</p>
+                <h3 class>Zutaten</h3>
+				<p>{{page.product.customFields.custom_nutrition_zutaten_html|raw }}</p>
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}

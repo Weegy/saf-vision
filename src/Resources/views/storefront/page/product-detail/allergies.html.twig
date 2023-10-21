@@ -1,0 +1,85 @@
+{% block utilities_offcanvas_content %}
+	{% block page_product_detail_description_container %}
+		<div class="product-detail-description tab-pane-container">
+			
+			<div id="allergeneTab" class="content--description">
+            <h2 class="content--title">Nährwerte {{page.product.customFields.custom_nutrition_unit}}</h2>
+				<div class="product--properties  has--border">
+							<div class="row">
+								<div class="col-4 bold">Brennwert kJ</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_kj}} kJ</div>
+								<div class="col-4 bold">Brennwert kcal	</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_kcal}} kCal</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Fett</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_fett}} g</div>
+								<div class="col-4 bold">davon gesättigte Fettsäuren	</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_fat_acids}} g</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Kohlenhydrate</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_carbon}} g</div>
+								<div class="col-4 bold">davon Zucker</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_sugar}} g</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Eiweiß</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_protein}} g</div>
+								<div class="col-4 bold">Salz</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_salt}} g</div>
+							</div>
+							
+				</div>
+                <hr/>
+				<h2 class="content--title">Allergene</h2>
+				<div class="product--properties has--border">
+							<div class="row">
+								<div class="col-4 bold">glutenhaltiges Getreide</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_gluten ? "Ja" : "Nein"}}</div>
+								<div class="col-4 bold">Hühnerei</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_egg ? "Ja" : "Nein"}}</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Erdnüsse</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_nut ? "Ja" : "Nein"}}</div>
+								<div class="col-4 bold">Milch</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_milk ? "Ja" : "Nein"}}</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Sellerie</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_sellerie ? "Ja" : "Nein"}}</div>
+								<div class="col-4 bold">Sesamsamen</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_sesame ? "Ja" : "Nein"}}</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Lupinen</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_lupine ? "Ja" : "Nein"}}</div>
+								<div class="col-4 bold">Krebstiere</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_crustaceans ? "Ja" : "Nein"}}</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Fisch</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_fish ? "Ja" : "Nein"}}</div>
+								<div class="col-4 bold">Soja</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_soy ? "Ja" : "Nein"}}</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Schalenfrüchte</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_shells ? "Ja" : "Nein"}}</div>
+								<div class="col-4 bold">Senf</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_mustard ? "Ja" : "Nein"}}</div>
+							</div>
+							<div class="row">
+								<div class="col-4 bold">Schwefeldioxid und Sulfit</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_sulfid ? "Ja" : "Nein"}}</div>
+								<div class="col-4 bold">Weichtiere</div>
+								<div class="col-2">{{page.product.customFields.custom_nutrition_mollusks ? "Ja" : "Nein"}}</div>
+							</div>
+				</div>
+                <br/>
+				<p>Die Angaben zu Allergenen beziehen sich, entsprechend der gesetzlichen Regelungen, ausschließlich auf rezepturmäßig enthaltene Allergene. Spuren anderer Allergene können bedingt durch Herstellungs- und Transportprozesse nicht vollständig ausgeschlossen werden.</p>
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}

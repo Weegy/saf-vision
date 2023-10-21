@@ -1,0 +1,25 @@
+{% sw_extends '@Storefront/storefront/page/checkout/address/index.html.twig' %}
+
+
+
+{% block base_navigation %}
+    <div class="nav-main">
+        {% block base_navigation_inner %}
+            {% sw_include '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+ {% block page_checkout_address_login_toggle %}
+     <div class="card-title" style="padding-top: 1rem;">
+         Sie sind bereits Kunde?
+     </div>
+     <div class="register-login-collapse-toogle" style="padding-top: 1rem;">
+         <a href="#loginCollapse"
+            class="login-collapse-toggle btn btn-buy"
+            data-bs-toggle="collapse"
+            style="color: white"
+            aria-expanded="false">
+             <strong>Jetzt anmelden</strong> </a>
+     </div>
+ {% endblock %}

@@ -1,0 +1,63 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/headline.html.twig' %}
+{% block page_product_detail_headline_inner %}
+    {% block page_product_detail_name_container %}
+            {% block page_product_detail_name %}
+            <div class="product-headline">
+                <h1 class="product-detail-name"
+                    itemprop="name">
+                    {{ page.product.translated.name }}
+                </h1>
+                {% set tsConfig = config('trustedShopsApp.config') %}
+								{% set tsChannelId = context.salesChannel.id ?? null %}
+
+								{% if tsChannelId is not null %}
+									{% if tsConfig[tsChannelId].widgets is defined and expectedMapping[tsChannelId] === tsConfig[tsChannelId].widgets.eTrustedChannelRef %}
+
+										{% if product.parentId and product.extensions.tsParentProduct is defined %}
+											{% set product = product.extensions.tsParentProduct %}
+										{% endif %}
+
+										<div
+											class="ts-rating" style="overflow: hidden">
+											<!-- added by Trusted Shops app: Start -->
+											{% sw_include '@Storefront/storefront/includes/saf-widget-assembler.html.twig' with {
+                    widgets: tsConfig[tsChannelId].widgets.children.0.children,
+                    product: product,
+                    widgetLocationId: 'wdg-loc-pl'
+                } %}
+											<!-- End -->
+										</div>
+									{% endif %}
+								{% endif %}
+                                <div style="width: 100%; padding-bottom: 1rem"></div>
+            {% endblock %}
+    {% endblock %}
+
+    {% block page_product_detail_manufacturer %}
+        {# {% if page.product.manufacturer %}
+            <div class="col-md-auto product-detail-manufacturer">
+                {% block page_product_detail_manufacturer_inner %}
+                    {% block page_product_detail_manufacturer_link %}
+                        <a href="{{ page.product.manufacturer.link }}"
+                           class="product-detail-manufacturer-link"
+                           rel="noreferrer noopener"
+                           target="_blank"
+                           title="{{ page.product.manufacturer.translated.name }}">
+                            {% if page.product.manufacturer.media %}
+                                {% block page_product_detail_manufacturer_logo %}
+                                    <img src="{{ page.product.manufacturer.media|sw_encode_media_url }}"
+                                         class="product-detail-manufacturer-logo"
+                                         alt="{{ page.product.manufacturer.translated.name }}"/>
+                                {% endblock %}
+                            {% else %}
+                                {% block page_product_detail_manufacturer_text %}
+                                    {{ page.product.manufacturer.translated.name }}
+                                {% endblock %}
+                            {% endif %}
+                        </a>
+                    {% endblock %}
+                {% endblock %}
+            </div>
+        {% endif %} #}
+    {% endblock %}
+{% endblock %}

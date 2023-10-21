@@ -1,6 +1,6 @@
 {% sw_extends '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
 {% block layout_main_navigation %}
-
+{# {{dump(page.header.navigation.tree)}} #}
     <div class="main-navigation"
          id="mainNavigation"
          data-flyout-menu="true">
@@ -34,7 +34,7 @@
 
                             {% for treeItem in page.header.navigation.tree %}
                                 {% set category = treeItem.category %}
-                                {% set name = category.translated.name %}
+                                {% set name = category.customFields.migration_safsw56_category_navtext ?? category.translated.name %}
 
                                 {# @deprecated tag:v6.5.0 - Use "category.id" directly instead. #}
                                 {% set categorId = category.id %}

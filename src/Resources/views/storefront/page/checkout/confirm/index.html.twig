@@ -1,0 +1,30 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
+
+{% block base_navigation %}
+            <div class="nav-main">
+                {% block base_navigation_inner %}
+                    {% sw_include '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+        
+  {% block page_checkout_confirm_payment_shipping %}
+  <div class="confirm-payment-shipping">
+                <div class="row">
+                    {% block page_checkout_confirm_payment %}
+                        <div class="col-sm-12 confirm-payment">
+                            {% sw_include '@Storefront/storefront/page/checkout/confirm/confirm-payment.html.twig' %}
+                        </div>
+                    {% endblock %}
+
+                    {% block page_checkout_confirm_shipping %}
+                        {% set PHYSICAL_STATE = constant('Shopware\\Core\\Content\\Product\\State::IS_PHYSICAL') %}
+                        {% if page.cart.lineItems.hasLineItemWithState(PHYSICAL_STATE) %}
+                            <div class="col-sm-12 confirm-shipping">
+                                {% sw_include '@Storefront/storefront/page/checkout/confirm/confirm-shipping.html.twig' %}
+                            </div>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            </div>
+  {% endblock %}

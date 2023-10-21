@@ -1,0 +1,7 @@
+{% sw_extends '@Storefront/storefront/component/line-item/element/delivery-date.html.twig' %}
+
+{% block component_line_item_delivery_date %}
+    {#    {{ dump(lineItem.payload.customFields.migration_SAFSW56_product_attr6) }} #}
+    <p style="font-size: 0.8rem">frühestes
+        Lieferdatum: {{ (lineItem.payload.customFields.migration_SAFSW56_product_attr6 ?? page.cart.extensions.EarliestCalculatedDate)|date('d.m.Y') }}</p>
+{% endblock %}

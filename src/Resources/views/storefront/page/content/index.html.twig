@@ -3,3 +3,9 @@
 {% block cms_breadcrumb %}
 
 {% endblock %}
+
+{% block base_main_inner %}
+    {{ parent() }}
+
+    <template data-saf-vision-plugin></template>
+{% endblock %}

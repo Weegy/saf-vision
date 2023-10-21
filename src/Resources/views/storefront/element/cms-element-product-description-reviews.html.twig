@@ -1,0 +1,213 @@
+{% sw_extends '@Storefront/storefront/element/cms-element-product-description-reviews.html.twig' %}
+
+{% block element_product_description_reviews %}
+	{% set config = element.fieldConfig.elements %}
+	{% set product = element.data.product %}
+	{% set descriptionTabId = "description-tab-" ~ product.id %}
+	{% set descriptionTabHref = "#description-tab-" ~ product.id ~ "-pane" %}
+	{% set descriptionTabContent = "description-tab-" ~ product.id ~ "-pane" %}
+	{% set reviewTabId = "review-tab-" ~ product.id %}
+	{% set reviewTabHref = "#review-tab-" ~ product.id ~ "-pane" %}
+	{% set reviewTabContent = "review-tab-" ~ product.id ~ "-pane" %}
+
+	{% if element.data.product %}
+		<div class="product-detail-tabs cms-element-{{ element.type }}{% if config.alignment.value %} has-vertical-alignment{% endif %}">
+			{% if config.alignment.value %}
+				<div class="cms-element-alignment{% if config.alignment.value == " center" %} align-self-center{% elseif config.alignment.value == " flex-end" %} align-self-end{% else %} align-self-start{% endif %}">
+				{% endif %}
+				<div class="card card-tabs col-lg-8">
+					{% block element_product_desciption_reviews_tabs_navigation %}
+						<div class="cms-card-header card-header product-detail-tab-navigation product-description-reviews-tab-navigation" data-offcanvas-tabs="false">
+							{% block element_product_desciption_reviews_tabs_navigation_container %}
+								<ul class="nav nav-tabs product-detail-tab-navigation-list" id="product-detail-tabs" data-offcanvas-tabs="false" role="tablist">
+									{% block element_product_description_reviews_tabs_navigation_description %}
+										<li class="nav-item">
+											<a class="nav-link {% if (ratingSuccess != 1) and (ratingSuccess != -1) %}active{% endif %} product-detail-tab-navigation-link description-tab" id="{{ descriptionTabId }}" data-bs-toggle="tab" {# @deprecated tag:v6.6.0 - Registering plugin on selector "data-offcanvas-tabs" is deprecated. Use "data-off-canvas-tabs" instead #} {% if feature('v6.6.0.0') %} data-off-canvas-tabs="false" {% else %} data-offcanvas-tabs="false" {% endif %} href="{{ descriptionTabHref }}" role="tab" aria-controls="{{ descriptionTabContent }}" aria-selected="true">
+												<span>{{ "detail.tabsDescription"|trans|sw_sanitize }}</span>
+												{#                                                <span class="product-detail-tab-navigation-icon"> #}
+											{#                                                        {% sw_icon 'arrow-medium-right' style {'pack':'solid'} %} #}
+												{#                                                    </span> #}
+												{#                                                {% if element.data.product.translated.description|length > 0 %} #}
+												{#                                                    <span class="product-detail-tab-preview"> #}
+												{#                                                            {{ page.product.translated.description|raw|striptags|sw_sanitize|u.truncate(125, '…') }} #}
+
+												{#                                                        #}
+												{# truncate always cuts down the length to 125 characters. #}
+												{#                                                                So it will only shorten the string if it exceeds 125 chars. #}
+												{#                                                                Therefor, only show the button when the length of the text is #}
+												{#                                                                greater or equal then 126 characters. #}
+												{#                                                        {% if element.data.product.translated.description|length >= 126 %} #}
+												{#                                                            <span class="product-detail-tab-preview-more">{{ "detail.tabsPreviewMore"|trans|sw_sanitize }}</span> #}
+												{#                                                        {% endif %} #}
+												{#                                                            </span> #}
+												{#                                                {% endif %} #}
+											</a>
+										</li>
+									{% endblock %}
+									{% block page_product_detail_tabs_navigation_details %}
+										<li class="nav-item">
+											<a class="nav-link product-detail-tab-navigation-link description-tab" id="details-tab" data-bs-toggle="tab" data-offcanvas-tabs="false" href="#details-tab-pane" role="tab" aria-controls="details-tab-pane" aria-selected="true">
+												<span>Produktdetails</span>
+												{#                                                <span class="product-detail-tab-navigation-icon"> #}
+											{#                                                    {% sw_icon 'arrow-medium-right' style {'pack':'solid'} %} #}
+												{#                                                </span> #}
+												{#                                                {% if page.product.translated.description|length > 0 %} #}
+												{#                                                    <span class="product-detail-tab-preview"> #}
+												{#                                                        {{ page.product.translated.description|raw|striptags|sw_sanitize|u.truncate(125, '…') }} #}
+
+												{#                                                        #}
+												{# truncate always cuts down the length to 125 characters. #}
+												{#                                                                                                                                                               So it will only shorten the string if it exceeds 125 chars. #}
+												{#                                                                                                                                                               Therefor, only show the button when the length of the text is #}
+												{#                                                                                                                                                               greater or equal then 126 characters. #}
+												{#                                                        {% if page.product.translated.description|length >= 126 %} #}
+												{#                                                            <span class="product-detail-tab-preview-more">{{ "detail.tabsPreviewMore"|trans|sw_sanitize }}</span> #}
+												{#                                                        {% endif %} #}
+												{#                                                    </span> #}
+												{#                                                {% endif %} #}
+											</a>
+										</li>
+									{% endblock %}
+									{% block page_product_detail_tabs_navigation_storage %}{# <li class="nav-item">
+																																																													<a class="nav-link product-detail-tab-navigation-link" id="storage-tab" {{ dataBsToggleAttr }}="tab" data-offcanvas-tabs="true" href="#storage-tab-pane" role="tab" aria-controls="storage-tab-pane" aria-selected="true">
+																																																														<span>Haltbarkeit</span>
+																																																														<span class="product-detail-tab-navigation-icon">
+																																																															{% sw_icon 'arrow-medium-right' style {'pack':'solid'} %}
+																																																														</span>
+																																																														{% if page.product.translated.description|length > 0 %}
+																																																															<span class="product-detail-tab-preview">
+																																																																{{ page.product.translated.description|raw|striptags|sw_sanitize|u.truncate(125, '…') }}
+																																																		
+																																																																{# truncate always cuts down the length to 125 characters.
+																																																																														                                               So it will only shorten the string if it exceeds 125 chars.
+																																																																														                                               Therefor, only show the button when the length of the text is
+																																																																														                                               greater or equal then 126 characters. #}
+										{# {% if page.product.translated.description|length >= 126 %}
+																																																																	<span class="product-detail-tab-preview-more">{{ "detail.tabsPreviewMore"|trans|sw_sanitize }}</span>
+																																																																{% endif %}
+																																																															</span>
+																																																														{% endif %}
+																																																													</a>
+																																																												</li> #}
+									{% endblock %}
+									{% block page_product_detail_tabs_navigation_allergies %}
+										<li class="nav-item">
+											<a class="nav-link product-detail-tab-navigation-link" id="allergies-tab" data-bs-toggle="tab" data-offcanvas-tabs="false" href="#allergies-tab-pane" role="tab" aria-controls="allergies-tab-pane" aria-selected="true">
+												<span>Nährwerte & Allergene</span>
+												{#                                                <span class="product-detail-tab-navigation-icon"> #}
+											{#                                                    {% sw_icon 'arrow-medium-right' style {'pack':'solid'} %} #}
+												{#                                                </span> #}
+												{#                                                {% if page.product.translated.description|length > 0 %} #}
+												{#                                                    <span class="product-detail-tab-preview"> #}
+												{#                                                        {{ page.product.translated.description|raw|striptags|sw_sanitize|u.truncate(125, '…') }} #}
+
+												{#                                                        #}
+												{# truncate always cuts down the length to 125 characters. #}
+												{#                                                                                                                                                               So it will only shorten the string if it exceeds 125 chars. #}
+												{#                                                                                                                                                               Therefor, only show the button when the length of the text is #}
+												{#                                                                                                                                                               greater or equal then 126 characters. #}
+												{#                                                        {% if page.product.translated.description|length >= 126 %} #}
+												{#                                                            <span class="product-detail-tab-preview-more">{{ "detail.tabsPreviewMore"|trans|sw_sanitize }}</span> #}
+												{#                                                        {% endif %} #}
+												{#                                                    </span> #}
+												{#                                                {% endif %} #}
+											</a>
+										</li>
+									{% endblock %}
+									{% block element_product_desciption_reviews_tabs_navigation_review %}
+										{% if config('core.listing.showReview') %}
+											<li class="nav-item">
+												<a class="nav-link {% if (ratingSuccess == 1) or (ratingSuccess == -1) %}active{% endif %} product-detail-tab-navigation-link review-tab" id="{{ reviewTabId }}" data-bs-toggle="tab" {# @deprecated tag:v6.6.0 - Registering plugin on selector "data-offcanvas-tabs" is deprecated. Use "data-off-canvas-tabs" instead #} {% if feature('v6.6.0.0') %} data-off-canvas-tabs="false" {% else %} data-offcanvas-tabs="false" {% endif %} href="{{ reviewTabHref }}" role="tab" aria-controls="{{ reviewTabContent }}" aria-selected="true">
+													{{ "detail.tabsReview"|trans|sw_sanitize }}
+												{#                                                    <span class="product-detail-tab-navigation-icon"> #}
+													{#                                                        {% sw_icon 'arrow-medium-right' style {'pack':'solid'} %} #}
+													{#                                                    </span> #}
+												</a>
+											</li>
+										{% endif %}
+									{% endblock %}
+								</ul>
+							{% endblock %}
+						</div>
+					{% endblock %}
+
+					{% block element_product_desciption_reviews_tabs_content %}
+						<div class="product-detail-tabs-content card-body">
+							{% block element_product_description_reviews_tabs_content_container %}
+								<div class="tab-content">
+									{% block element_product_description_reviews_tabs_content_description %}
+										<div class="tab-pane fade show {% if (element.data.ratingSuccess != 1) and (element.data.ratingSuccess != -1) %}active{% endif %}" id="{{ descriptionTabContent }}" role="tabpanel" aria-labelledby="{{ descriptionTabId }}">
+											{% sw_include '@Storefront/storefront/page/product-detail/description.html.twig' with {
+                                                product: element.data.product
+                                            } %}
+										</div>
+									{% endblock %}
+									{% block page_product_detail_tabs_content_details %}
+										<div class="tab-pane fade show " id="details-tab-pane" role="tabpanel" aria-labelledby="details-tab">
+											{% sw_include '@Storefront/storefront/page/product-detail/details.html.twig' %}
+										</div>
+									{% endblock %}
+									{% block page_product_detail_tabs_content_storage %}
+										{# <div class="tab-pane fade show " id="storage-tab-pane" role="tabpanel" aria-labelledby="storage-tab">
+																																																													{% sw_include '@Storefront/storefront/page/product-detail/storage.html.twig' %}
+																																																												</div> #}
+									{% endblock %}
+									{% block page_product_detail_tabs_content_allergies %}
+										<div class="tab-pane fade show " id="allergies-tab-pane" role="tabpanel" aria-labelledby="allergies-tab">
+											{% sw_include '@Storefront/storefront/page/product-detail/allergies.html.twig' %}
+										</div>
+									{% endblock %}
+									{% block element_product_desciption_reviews_tabs_content_review %}
+
+										{% set widgetLocationId = "wdg-loc-pp" %}
+										{% set tsChannelConfig = tsConfig[tsChannelId] %}
+										{% set tsConfig = config('trustedShopsApp.config') %}
+										{% set tsChannelId = context.salesChannel.id ?? null %}
+
+										{% if tsChannelId is not null %}
+											{% if tsConfig[tsChannelId].widgets is defined and expectedMapping[tsChannelId] === tsConfig[tsChannelId].widgets.eTrustedChannelRef %}
+												{% set product = page.product %}
+
+												{% if page.product.parentId %}
+													{% if page.extensions.tsParentProduct is defined and not null %}
+														{% set product = page.extensions.tsParentProduct %}
+													{% endif %}
+												{% endif %}
+												<!-- added by Trusted Shops app: Start -->
+												<div class="tab-pane fade show" id="{{reviewTabContent}}" role="tabpanel" aria-labelledby="{{ reviewTabId }}">
+												
+													{% for widget in tsConfig[tsChannelId].widgets.children.0.children %}
+														{% if widget.widgetLocation.id === widgetLocationId %}
+															{% set widgetTag = '<' ~ widget.tag ~ ' ' ~ widget.attributes.id.attributeName ~ '="'~ widget.attributes.id.value ~'"' %}
+
+															{% if widget.attributes.productIdentifier is defined %}
+																{% if widget.attributes.productIdentifier.attributeName === "data-gtin" and product.ean is not null %}
+																	{% set widgetTag = widgetTag ~ ' ' ~ widget.attributes.productIdentifier.attributeName ~ '="'~ product.ean ~'"' %}
+																{% elseif widget.attributes.productIdentifier.attributeName === "data-mpn" and product.manufacturerNumber is not null %}
+																	{% set widgetTag = widgetTag ~ ' ' ~ widget.attributes.productIdentifier.attributeName ~ '="'~ product.manufacturerNumber ~'"' %}
+																{% else %}
+																	{% set widgetTag = widgetTag ~ 'data-sku="'~ product.productNumber|replace({'M':''}) ~'"' %}
+																{% endif %}
+															{% endif %}
+
+															{% set widgetTag = widgetTag ~ '></' ~ widget.tag ~ '>' %}
+
+															{{ widgetTag|raw }}
+														{% endif %}
+													{% endfor %}
+												</div>
+												<!-- End -->
+											{% endif %}
+										{% endif %}
+									{% endblock %}
+								</div>
+							{% endblock %}
+						</div>
+					{% endblock %}
+				</div>
+				{% if config.verticalAlign.value %}
+				</div>
+			{% endif %}
+		</div>
+	{% endif %}
+{% endblock %}

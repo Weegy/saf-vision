@@ -1,0 +1,22 @@
+<sw-card class="sw-order-delivery-metadata" title="Kundendaten">
+    <router-link :to="{ name: 'sw.customer.detail', params: { id: this.order.orderCustomer.customerId } }">
+        Zu den Details von {{ this.order.orderCustomer.firstName }} {{ this.order.orderCustomer.lastName }}
+    </router-link>
+    <sw-description-list>
+        <dt>Bonitätsprüfung</dt>
+        <dd>
+            <sw-button
+                    class="sw-order-list__add-order"
+                    variant="primary"
+                    @click="checkCreditLimit()"
+            >
+                Starten
+            </sw-button>
+        </dd>
+    </sw-description-list>
+    <sw-description-list>
+        <dd>
+            <span v-html="creditScore"></span>
+        </dd>
+    </sw-description-list>
+</sw-card>
