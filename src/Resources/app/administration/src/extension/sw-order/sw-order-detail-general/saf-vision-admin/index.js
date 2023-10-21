@@ -97,8 +97,7 @@ Component.register('saf-vision-admin', {
 			} else {
 				criteria = this.orders.criteria;
 			}
-			criteria.addAssociation('stateMachineState')
-				.addAssociation('currency');
+			criteria.addAssociation('stateMachineState').addSorting(Criteria.sort('orderDateTime', 'DESC')).addAssociation('currency');
 
 			this.orderRepository.search(criteria).then((orders) => {
 				this.customerOrders = orders;
