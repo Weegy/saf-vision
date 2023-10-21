@@ -10,7 +10,8 @@ Component.register('saf-vision-admin', {
 	data() {
 		return {
 			creditScore: "",
-			customer: ""
+			customer: "",
+			customerOrders: [],
 		}
 
 	},
@@ -31,12 +32,19 @@ Component.register('saf-vision-admin', {
 		}
 	},
 	computed: {
+		orderColumns() {
+			return this.getOrderColumns();
+		},
 		addressRepository() {
 			return this.repositoryFactory.create('order_address');
 		},
 		customerRepository() {
 			return this.repositoryFactory.create('customer');
+		},
+		orderRepository() {
+			return this.repositoryFactory.create('order');
 		}
+
 	},
 
 	created: function () {
@@ -44,13 +52,31 @@ Component.register('saf-vision-admin', {
 	},
 
 	methods: {
-
+		getOrderColumns() {
+			return [{
+				property: 'orderNumber',
+				label: 'sw-customer.detailOrder.columnNumber',
+				align: 'center',
+			}, {
+				property: 'amountTotal',
+				label: 'sw-customer.detailOrder.columnAmount',
+				align: 'right',
+			}, {
+				property: 'stateMachineState.name',
+				label: 'sw-customer.detailOrder.columnOrderState',
+			}, {
+				property: 'orderDateTime',
+				label: 'sw-customer.detailOrder.columnOrderDate',
+				align: 'center',
+			}];
+		},
 		loadCustomer() {
 			return this.customerRepository.get(
 				this.order.orderCustomer.customerId,
 				Shopware.Context.api
 			).then((customer) => {
 				this.customer = customer;
+				this.loadOrdersForCustomer();
 				this.creditScore = this.customer.customFields?.custom_boni_state_json ?? "Keine Informationen verfügbar"
 			});
 		},
@@ -62,6 +88,22 @@ Component.register('saf-vision-admin', {
 
 			});
 
+		},
+		loadOrdersForCustomer() {
+
+			let criteria = new Criteria(1, 25);
+			if (!this.customerOrders || !this.customerOrders.criteria) {
+				criteria.addFilter(Criteria.equals('order.orderCustomer.customerId', this.customer.id));
+			} else {
+				criteria = this.orders.criteria;
+			}
+			criteria.addAssociation('stateMachineState')
+				.addAssociation('currency');
+
+			this.orderRepository.search(criteria).then((orders) => {
+				this.customerOrders = orders;
+				this.isLoading = false;
+			});
 		}
 	}
 });
